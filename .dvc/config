@@ -3,4 +3,5 @@
 ['remote "local_remote"']
     url = C:\Users\alejandro.aguilar\Documents\dvc
 ['remote "remote_storage"']
-    url = gdrive://1a7YcatKGAbdK8rMVTMuxzl6MA9-hm-fI
+    url = gdrive://1wS8nJ1HuSNrGAK17U5Ju8QQt2T4cYOux
+    gdrive_acknowledge_abuse = true
