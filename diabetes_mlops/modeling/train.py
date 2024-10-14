@@ -24,6 +24,7 @@ def train_model():
         print("Cargando y preprocesando los datos...")
         data = load_data()
         data = preprocess_data(data)
+
         print(f"Dimensiones del dataset después del preprocesamiento: {data.shape}")
     except Exception as e:
         print(f"Error al cargar o preprocesar los datos: {e}")
@@ -55,7 +56,7 @@ def train_model():
     models = {
         'LogisticRegression': LogisticRegression(class_weight='balanced'),
         'RandomForest': RandomForestClassifier(class_weight='balanced', random_state=Config.RANDOM_STATE),
-        'XGBClassifier': XGBClassifier(scale_pos_weight=1, use_label_encoder=False, eval_metric='logloss')
+        'XGBClassifier': XGBClassifier(scale_pos_weight=1, eval_metric='logloss')
     }
 
     # Hiperparámetros a evaluar para cada modelo

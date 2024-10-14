@@ -11,11 +11,11 @@ def load_data():
 
 def preprocess_data(data):
     """Aplica las transformaciones necesarias al dataset."""
-    data['Gender'] = data['Gender'] == 'Male'
+    # data['Gender'] = data['Gender'] == 'Male'
     data['class'] = data['class'] == 'Positive'
     
-    for column in data.columns[2:-1]:
-        data[column] = data[column] == 'Yes'
+    # for column in data.columns[2:-1]:
+    #     data[column] = data[column] == 'Yes'
     
     return data
 
@@ -31,9 +31,9 @@ if __name__ == '__main__':
     print("Datos crudos cargados correctamente")
     
     # Preprocesar los datos
-    processed_data = preprocess_data(raw_data)
+    # processed_data = preprocess_data(raw_data)
     print("Datos preprocesados correctamente")
     
     # Guardar los datos preprocesados
-    save_processed_data(processed_data)
+    save_processed_data(raw_data)
 
