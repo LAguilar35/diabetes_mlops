@@ -1,5 +1,14 @@
+"""This script contains functions for visualizing data considering most of the variables are binary.
+It includes:
+1. Histogram generation for exploring data distribution.
+2. Correlation matrix plotting for examining relationships between variables.
+3. Boxplot generation for analyzing the distribution of each value.
+"""
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd
+
+from dataset import load_data, preprocess_data
 
 def plot_histograms(data):
     """Genera histogramas del dataset."""
@@ -19,3 +28,11 @@ def plot_boxplots(data):
         sns.boxplot(x='class', y=column, data=data)
         plt.title(f'Relationship between diabetes result and {column}')
         plt.show()
+
+
+# Cargar y preprocesar los datos
+print("Cargando y preprocesando los datos...")
+data = load_data()
+data = preprocess_data(data)
+
+plot_correlation_matrix(data)
