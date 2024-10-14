@@ -1,30 +1,58 @@
-from pathlib import Path
+import sys
+import os
+import pandas as pd
+import joblib
 
-import typer
-from loguru import logger
-from tqdm import tqdm
+# Añadir el directorio raíz que contiene config.py al sys.path
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.abspath(os.path.join(current_dir, '..', '..'))
+config_path = os.path.join(root_dir, 'diabetes_mlops')  # Ajustar la ruta para encontrar config.py
+sys.path.insert(0, config_path)
 
-from diabetes_mlops.config import MODELS_DIR, PROCESSED_DATA_DIR
+from config import Config  # Importar el archivo de configuración
 
-app = typer.Typer()
+# Definir la ruta del archivo de datos de entrada
+input_data_path = os.path.join(root_dir, 'data', 'processed', 'diabetes_data_upload.csv')
 
+# Definir la ruta de salida de las predicciones
+output_dir = os.path.join(root_dir, 'data', 'predictions')
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    features_path: Path = PROCESSED_DATA_DIR / "test_features.csv",
-    model_path: Path = MODELS_DIR / "model.pkl",
-    predictions_path: Path = PROCESSED_DATA_DIR / "test_predictions.csv",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Performing inference for model...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Inference complete.")
-    # -----------------------------------------
+output_path = os.path.join(output_dir, 'predictions.csv')
 
+# Definir la función de predicción
+def predict(new_data):
+    # Cargar el modelo entrenado desde el archivo almacenado
+    model = joblib.load(Config.MODEL_PATH)
 
+    # Verificar si las columnas de entrada coinciden con las esperadas (nueva forma)
+    try:
+        expected_cols = model.feature_names_in_
+    except AttributeError:
+        # En caso de que feature_names_in_ no exista, continuar sin verificación
+        expected_cols = new_data.columns  # Suponer que las columnas son correctas
+
+    missing_cols = set(expected_cols) - set(new_data.columns)
+    if missing_cols:
+        raise ValueError(f"Las siguientes columnas faltan en new_data: {missing_cols}")
+
+    # Realizar predicciones
+    predictions = model.predict(new_data)
+
+    # Convertir predicciones a un DataFrame para guardarlo como CSV
+    df_predictions = pd.DataFrame(predictions, columns=['Prediction'])
+    df_predictions.to_csv(output_path, index=False)
+
+    return predictions
+
+# Cargar los datos de entrada y realizar la predicción
 if __name__ == "__main__":
-    app()
+    try:
+        new_data = pd.read_csv(input_data_path)
+        predict(new_data)
+        print(f"Predicciones guardadas en {output_path}")
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+    except ValueError as e:
+        print(f"Error en las columnas de datos: {e}")

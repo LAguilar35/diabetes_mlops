@@ -1,29 +1,21 @@
-from pathlib import Path
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-import typer
-from loguru import logger
-from tqdm import tqdm
+def plot_histograms(data):
+    """Genera histogramas del dataset."""
+    data.hist(bins=15, figsize=(15, 10))
+    plt.show()
 
-from diabetes_mlops.config import FIGURES_DIR, PROCESSED_DATA_DIR
+def plot_correlation_matrix(data):
+    """Genera la matriz de correlación."""
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(data.corr(numeric_only=True), annot=True, fmt='.2f', cmap='coolwarm')
+    plt.show()
 
-app = typer.Typer()
-
-
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
-    output_path: Path = FIGURES_DIR / "plot.png",
-    # -----------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Generating plot from data...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Plot generation complete.")
-    # -----------------------------------------
-
-
-if __name__ == "__main__":
-    app()
+def plot_boxplots(data):
+    """Genera boxplots para cada feature en función de la clase."""
+    for column in data.columns[:-1]:
+        plt.figure(figsize=(8, 4))
+        sns.boxplot(x='class', y=column, data=data)
+        plt.title(f'Relationship between diabetes result and {column}')
+        plt.show()

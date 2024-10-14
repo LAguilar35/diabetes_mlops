@@ -1,0 +1,25 @@
+stages:
+  preprocess:
+    cmd: python diabetes_mlops/dataset.py
+    deps:
+      - diabetes_mlops/dataset.py
+      - diabetes_mlops/config.py
+    outs:
+      - data/processed/diabetes_data_upload.csv
+
+  train:
+    cmd: python diabetes_mlops/modeling/train.py
+    deps:
+      - diabetes_mlops/modeling/train.py
+      - data/processed/diabetes_data_upload.csv
+      - diabetes_mlops/config.py
+    outs:
+      - models/trained_model.pkl
+
+  predict:
+    cmd: python diabetes_mlops/modeling/predict.py
+    deps:
+      - diabetes_mlops/modeling/predict.py
+      - models/trained_model.pkl
+    outs:
+      - data/predictions/predictions.csv
