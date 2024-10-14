@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/125696797122348542/0cf0c60abb4e4630b92589b75661c1a3/artifacts
+end_time: 1728870174946
+entry_point_name: ''
+experiment_id: '125696797122348542'
+lifecycle_stage: active
+run_id: 0cf0c60abb4e4630b92589b75661c1a3
+run_name: LogisticRegression
+run_uuid: 0cf0c60abb4e4630b92589b75661c1a3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728870167066
+status: 3
+tags: []
+user_id: Hecto

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/125696797122348542/1d76480b08fe4919aa879b1757f42674/artifacts
+end_time: 1728870180442
+entry_point_name: ''
+experiment_id: '125696797122348542'
+lifecycle_stage: active
+run_id: 1d76480b08fe4919aa879b1757f42674
+run_name: RandomForest
+run_uuid: 1d76480b08fe4919aa879b1757f42674
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728870174986
+status: 3
+tags: []
+user_id: Hecto

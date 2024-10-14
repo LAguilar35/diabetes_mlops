@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/125696797122348542/c9e6bfa637994b1a97b927d0c170676f/artifacts
+end_time: 1728870186504
+entry_point_name: ''
+experiment_id: '125696797122348542'
+lifecycle_stage: active
+run_id: c9e6bfa637994b1a97b927d0c170676f
+run_name: XGBClassifier
+run_uuid: c9e6bfa637994b1a97b927d0c170676f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1728870180477
+status: 3
+tags: []
+user_id: Hecto

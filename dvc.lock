@@ -9,33 +9,33 @@ stages:
       size: 784
     - path: diabetes_mlops/dataset.py
       hash: md5
-      md5: 5f42d2e3d4b96718a43b308928c98030
-      size: 1262
+      md5: 4efc30fab24e7453da87777fe5c0c16f
+      size: 1264
     outs:
     - path: data/processed/diabetes_data_upload.csv
       hash: md5
-      md5: a5874614852e1cd589b51cb86be00165
-      size: 48644
+      md5: 2554cdb70c11374b4c317421cb4642f6
+      size: 34682
   train:
     cmd: python diabetes_mlops/modeling/train.py
     deps:
     - path: data/processed/diabetes_data_upload.csv
       hash: md5
-      md5: a5874614852e1cd589b51cb86be00165
-      size: 48644
+      md5: 2554cdb70c11374b4c317421cb4642f6
+      size: 34682
     - path: diabetes_mlops/config.py
       hash: md5
       md5: 5879d71157e3685ba2804114a1aa3273
       size: 784
     - path: diabetes_mlops/modeling/train.py
       hash: md5
-      md5: fa59fd7e23fee227e22155cee80221f1
-      size: 5691
+      md5: cfa37d216d3409828e140f4927f0f157
+      size: 5668
     outs:
     - path: models/trained_model.pkl
       hash: md5
-      md5: 89c40b21761f5505daa657ba855e6309
-      size: 1430200
+      md5: 0dd18c314aa992604daa17c719fb7824
+      size: 378328
   predict:
     cmd: python diabetes_mlops/modeling/predict.py
     deps:
@@ -45,8 +45,8 @@ stages:
       size: 2202
     - path: models/trained_model.pkl
       hash: md5
-      md5: 89c40b21761f5505daa657ba855e6309
-      size: 1430200
+      md5: 0dd18c314aa992604daa17c719fb7824
+      size: 378328
     outs:
     - path: data/predictions/predictions.csv
       hash: md5
