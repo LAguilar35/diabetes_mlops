@@ -19,6 +19,17 @@ from diabetes_mlops.dataset import load_data, preprocess_data
 from diabetes_mlops.features import create_pipeline
 
 def train_model():
+    """Entrena y evalúa modelos de clasificación para la predicción de diabetes.
+
+    Esta función carga los datos, los preprocesa, separa características y etiquetas,
+    divide los datos en conjuntos de entrenamiento y prueba, crea un pipeline de preprocesamiento,
+    entrena varios modelos (Logistic Regression, Random Forest, XGBoost) utilizando Grid Search para la
+    optimización de hiperparámetros, y registra los resultados y modelos en MLflow.
+
+    Raises:
+        Exception: Si ocurre un error durante el proceso de carga, preprocesamiento, 
+                    entrenamiento o evaluación de los modelos.
+    """
     try:
         # Cargar y preprocesar los datos
         print("Cargando y preprocesando los datos...")

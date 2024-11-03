@@ -23,6 +23,21 @@ output_path = os.path.join(output_dir, 'predictions.csv')
 
 # Definir la función de predicción
 def predict(new_data):
+    """Realiza predicciones utilizando un modelo previamente entrenado.
+
+    Esta función carga el modelo desde el archivo especificado en la configuración,
+    verifica que las columnas de los datos de entrada coincidan con las esperadas y
+    realiza predicciones sobre los nuevos datos.
+
+    Args:
+        new_data (pd.DataFrame): Un DataFrame que contiene los datos sobre los que se realizarán las predicciones.
+
+    Raises:
+        ValueError: Si faltan columnas en los datos de entrada que son necesarias para las predicciones.
+
+    Returns:
+        np.ndarray: Un array con las predicciones generadas por el modelo.
+    """
     # Cargar el modelo entrenado desde el archivo almacenado
     model = joblib.load(Config.MODEL_PATH)
 
