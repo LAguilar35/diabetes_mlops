@@ -175,7 +175,19 @@ def train_model():
 
 
 def test_accuracy(y_test, y_pred):
-    """Verifica la exactitud de los modelos contra el punto de referencia"""
+    """
+    Verifica que la exactitud del modelo actual sea superior a la de un punto de referencia simple.
+
+    Parameters:
+    y_test (array-like): Valores reales de la variable objetivo para el conjunto de prueba.
+    y_pred (array-like): Predicciones del modelo para el conjunto de prueba.
+
+    Returns:
+    None
+
+    Raises:
+    AssertionError: Si la exactitud del modelo es inferior o igual a la exactitud del punto de referencia.
+    """
     y_benchmark = [1.0] * len(y_test)
     benchmark_acc = accuracy_score(y_test, y_benchmark)
 
@@ -187,7 +199,19 @@ def test_accuracy(y_test, y_pred):
         raise(ae)
     
 def test_model_params(params, model_name):
-    """Verifica los parámetros contemplados en la CV"""
+    """
+    Verifica que los parámetros utilizados en la validación cruzada estén habilitados para el modelo especificado.
+
+    Parameters:
+    params (dict): Diccionario con los parámetros utilizados en la validación cruzada.
+    model_name (str): Nombre del modelo al que corresponden los parámetros.
+
+    Returns:
+    None
+
+    Raises:
+    AssertionError: Si algún parámetro utilizado en la validación cruzada no está habilitado en la configuración.
+    """
     for param_name, param_value in Config.ENABLED_PARAMS[model_name].items():
         try:
             assert param_value in params[param_name],\
