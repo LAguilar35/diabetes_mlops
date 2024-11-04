@@ -50,7 +50,18 @@ def save_processed_data(data):
     print(f"Datos procesados guardados correctamente en {processed_path}")
 
 def test_data_types(data):
-    """Verifica los tipos de datos del dataset seleccionado"""
+    """
+    Verifica los tipos de datos del dataset seleccionado comparándolos con el esquema definido en Config.
+
+    Parameters:
+    data (pd.DataFrame): El dataset que contiene los datos a verificar.
+
+    Returns:
+    int: El número de errores encontrados en la verificación de tipos de datos.
+    
+    Raises:
+    AssertionError: Si el tipo de dato de alguna columna no coincide con el definido en el esquema.
+    """
     dtypes = data.dtypes
     columns = data.columns
     errors = 0
@@ -68,7 +79,18 @@ def test_data_types(data):
     return errors
 
 def test_data_content(data):
-    """Verifica los valores de los datos dentro del dataset"""
+    """
+    Verifica los valores de los datos dentro del dataset, asegurando que cumplan con las reglas definidas en Config.
+
+    Parameters:
+    data (pd.DataFrame): El dataset que contiene los datos a verificar.
+
+    Returns:
+    int: El número de errores encontrados en la verificación del contenido de los datos.
+    
+    Raises:
+    AssertionError: Si los valores de alguna columna no cumplen con las reglas definidas en el esquema.
+    """
     columns = data.columns
     errors = 0
     try:
@@ -83,7 +105,18 @@ def test_data_content(data):
     return errors
 
 def test_data_column(schema_node, column, data):
-    """Verifica el dato que existe dentro de una columna en específico"""
+    """
+    Verifica los datos de una columna específica en el dataset, asegurando que cumplan con las restricciones de tipo,
+    rango o conjunto de opciones definidos en Config.
+
+    Parameters:
+    schema_node (dict): Nodo del esquema que define las reglas de validación para la columna.
+    column (str): Nombre de la columna a verificar.
+    data (pd.DataFrame): El dataset que contiene la columna a validar.
+
+    Raises:
+    AssertionError: Si los valores de la columna no cumplen con las restricciones establecidas (rango o conjunto de opciones).
+    """
     try:
         if column in Config.NUMERIC_FEATURES:
             assert data[column].min() >= schema_node[Config.RANGE][Config.MIN],\
