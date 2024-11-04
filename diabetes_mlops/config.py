@@ -61,3 +61,105 @@ class Config:
         'Itching', 'Irritability', 'delayed healing', 'partial paresis',
         'muscle stiffness', 'Alopecia', 'Obesity'
     ]
+    RESULT_FEATURE = ['class']
+
+    # Parámetros para las pruebas
+    DTYPE = 'dtype'
+    INT_DTYPE = 'int64'
+    OBJECT_DTYPE = 'object'
+    RANGE = 'range'
+    MIN = 'min'
+    MAX = 'max'
+    OPTIONS = 'options'
+
+    SCHEMA = {
+        'Age': {
+            RANGE: {
+                MIN: 16,
+                MAX: 90
+            },
+            DTYPE: INT_DTYPE
+        },
+        'Gender': {
+            OPTIONS: ['Male', 'Female'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Polyuria': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Polydipsia': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'sudden weight loss': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'weakness': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Polyphagia': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Genital thrush': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'visual blurring': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Itching': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Irritability': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'delayed healing': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'partial paresis': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'muscle stiffness': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Alopecia': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'Obesity': {
+            OPTIONS: ['No', 'Yes'],
+            DTYPE: OBJECT_DTYPE
+        },
+        'class': {
+            OPTIONS: ['Positive', 'Negative'],
+            DTYPE: OBJECT_DTYPE
+        }
+    }
+
+    ENABLED_PARAMS = {
+        'LogisticRegression': {
+            'classifier__C': 10,
+            'classifier__solver': 'lbfgs',
+            'classifier__max_iter': 100
+        },
+        'RandomForest': {
+            'classifier__n_estimators': 50,
+            'classifier__max_depth': 20,
+            'classifier__min_samples_split': 10
+        },
+        'XGBClassifier': {
+            'classifier__n_estimators': 200,
+            'classifier__max_depth': 10,
+            'classifier__learning_rate': 0.001
+        }
+    }

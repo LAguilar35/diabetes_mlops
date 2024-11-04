@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 
 from diabetes_mlops.config import Config
 from diabetes_mlops.dataset import load_data, preprocess_data
-from diabetes_mlops.features import create_pipeline
+from diabetes_mlops.features import create_pipeline, test_feature_engineering_process
 
 def train_model():
     """Entrena y evalúa modelos de clasificación para la predicción de diabetes.
@@ -62,6 +62,16 @@ def train_model():
     except Exception as e:
         print(f"Error al crear el pipeline de preprocesamiento: {e}")
         return
+    
+    try:
+        # Pruebas de FEP
+        print("Iniciando pruebas de FEP")
+        test_feature_engineering_process(preprocessor, X_train, y_train)
+    except AssertionError as e:
+        print(f"Error en las de pruebas de FEP: {e}")
+        return
+    else:
+        print("Pruebas de FEP pasadas corréctamente")
 
     # Modelos a evaluar
     models = {
@@ -108,6 +118,14 @@ def train_model():
 
             # Búsqueda de hiperparámetros con GridSearch
             grid_search = GridSearchCV(model_pipeline, param_grids[model_name], cv=Config.CV_FOLDS, n_jobs=-1)
+            
+            try:
+                # Pruebas de parámetros de modelo
+                test_model_params(param_grids[model_name], model_name)
+            except Exception as ae:
+                print("Error en las pruebas de parámetros de modelo: ", ae)
+            else:
+                print("Pruebas de parámteros de modelo CORRECTAS")
 
             with mlflow.start_run(run_name=model_name):
                 # Entrenar el modelo
@@ -130,6 +148,14 @@ def train_model():
                     best_model = grid_search.best_estimator_
                     best_score = score
                     best_params = grid_search.best_params_
+
+                try:
+                    # Pruebas de exactitud
+                    test_accuracy(y_test, y_pred)
+                except AssertionError as ae:
+                    print("Error en las pruebas de exactitud:", ae)
+                else:
+                    print("Pruebas de Exactitud CORRECTAS")
         except Exception as e:
             print(f"Error en el modelo {model_name}: {e}")
             continue
@@ -146,6 +172,28 @@ def train_model():
             print(f"Error al guardar el mejor modelo: {e}")
     else:
         print("No se encontró un modelo con mejor rendimiento.")
+
+
+def test_accuracy(y_test, y_pred):
+    """Verifica la exactitud de los modelos contra el punto de referencia"""
+    y_benchmark = [1.0] * len(y_test)
+    benchmark_acc = accuracy_score(y_test, y_benchmark)
+
+    current_acc = accuracy_score(y_test, y_pred)
+
+    try:
+        assert current_acc > benchmark_acc, "La exactitud (accuracy) actual es mayor que el punto de referencia inicial" 
+    except AssertionError as ae:
+        raise(ae)
+    
+def test_model_params(params, model_name):
+    """Verifica los parámetros contemplados en la CV"""
+    for param_name, param_value in Config.ENABLED_PARAMS[model_name].items():
+        try:
+            assert param_value in params[param_name],\
+            "El parámetro {} para el modelo {} = {} no se contempla dentro de la CV".format(param_name, param_value, model_name)
+        except AssertionError as ae:
+            raise(ae)
 
 if __name__ == '__main__':
     train_model()
