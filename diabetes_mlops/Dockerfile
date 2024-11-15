@@ -5,7 +5,7 @@ WORKDIR /app
 COPY trained_model.pkl /app/
 COPY main.py /app/
 
-RUN pip install fastapi uvicorn pydantic
+RUN pip install fastapi uvicorn scikit-learn pydantic category_encoders joblib pandas
 
 EXPOSE 8000
 
